@@ -1,4 +1,4 @@
-name: geno
+name: PRSNet-2
 channels:
   - pytorch
   - dglteam/label/th21_cu118
