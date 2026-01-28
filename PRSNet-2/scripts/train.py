@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append("..")
+sys.path.append("/mnt/lts4-pathofm/scratch/home/ogut/genomics-project/prsnet2/PRSNet-2")
 import argparse
 import warnings
 import torch
@@ -22,10 +22,14 @@ from src.trainer import Trainer
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Arguments for training PRSNet-2")
-    parser.add_argument("--data_path", type=str, required=True)
-    parser.add_argument("--dataset", type=str, required=True)
+    parser.add_argument(
+        "--data_path",
+        type=str,
+        default="/mnt/lts4-pathofm/scratch/home/ogut/genomics-project/prsnet2/PRSNet-2/example_data",
+    )
+    parser.add_argument("--dataset", type=str, default="AD")
 
-    parser.add_argument("--seed", type=int, required=True)
+    parser.add_argument("--seed", type=int, default=42)
 
     parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument("--batch_size", type=int, default=512)
@@ -47,7 +51,9 @@ if __name__ == "__main__":
     set_random_seed(args.seed)
 
     # Data Loading
-    ggi_graph = dgl.load_graphs(f"../example_data/ggi_graph_800.bin")[0][0]
+    ggi_graph = dgl.load_graphs(
+        f"/mnt/lts4-pathofm/scratch/home/ogut/genomics-project/prsnet2/PRSNet-2/example_data/ggi_graph_800.bin"
+    )[0][0]
     X = torch.tensor(np.load(f"{args.data_path}/{args.dataset}/X.npy"))
     Y = torch.tensor(np.load(f"{args.data_path}/{args.dataset}/Y.npy"))
     pvalues = torch.from_numpy(
